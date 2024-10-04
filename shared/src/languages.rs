@@ -16,6 +16,7 @@ pub const LANGUAGES: &[&Language] = &[
     &markdown(),
     &python(),
     &rescript(),
+    &ruby(),
     &rust(),
     &sql(),
     &swift(),
@@ -289,6 +290,53 @@ const fn rescript() -> Language {
             "./node_modules/.bin/rescript",
             &["format", "-stdin", ".res"],
         )),
+    }
+}
+
+const fn ruby() -> Language {
+    Language {
+        lsp_language_id: Some(LanguageId::new("ruby")),
+        extensions: &[
+            "rb", "rake", "irb", "gemspec", "rabl", "jbuilder", "jb", "podspec", "rjs", "rbi",
+            "rbs",
+        ],
+        file_names: &[
+            "Appfile",
+            "Appraisals",
+            "Berksfile",
+            "Brewfile",
+            "Capfile",
+            "Cheffile",
+            "Deliverfile",
+            "Fastfile",
+            "gemfile",
+            "Gemfile",
+            "Guardfile",
+            "Gymfile",
+            "Hobofile",
+            "Matchfile",
+            "Podfile",
+            "Puppetfile",
+            "rakefile",
+            "Rakefile",
+            "Rantfile",
+            "Scanfile",
+            "Snapfile",
+            "Thorfile",
+            "Vagrantfile",
+        ],
+        lsp_command: Some(LspCommand {
+            command: Command("ruby-lsp", &[]),
+            ..LspCommand::default()
+        }),
+        tree_sitter_grammar_config: Some(GrammarConfig {
+            id: "ruby",
+            url: "https://github.com/tree-sitter/tree-sitter-ruby",
+            commit: "master",
+            subpath: None,
+        }),
+        formatter_command: Some(Command("rubyfmt", &[])),
+        ..Language::new()
     }
 }
 
